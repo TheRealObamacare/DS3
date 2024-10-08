@@ -363,7 +363,7 @@ public class MySet_Tests {
                 String s=it.next();
                 Assert.assertTrue(results.contains(s));
             }
-            Assert.assertEquals(set.size(),results.size());
+            Assert.assertEquals(results.size(),set.size());
         }
         catch(Exception e)
         {
@@ -405,7 +405,7 @@ public class MySet_Tests {
 
                 Assert.assertTrue(results.contains(s));
             }
-            Assert.assertEquals(set.size(),results.size());
+            Assert.assertEquals(results.size(),set.size());
         }
         catch(Exception e)
         {

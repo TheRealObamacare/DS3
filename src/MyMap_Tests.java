@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class MyMap_Tests {
@@ -288,17 +289,17 @@ public class MyMap_Tests {
             map.put(4,"C");
             Assert.assertEquals(3,map.size());
 
-            Assert.assertEquals(map.get(1),"A");
-            Assert.assertEquals(map.get(3),"B");
-            Assert.assertEquals(map.get(4),"C");
+            Assert.assertEquals("A",map.get(1));
+            Assert.assertEquals("B",map.get(3));
+            Assert.assertEquals("C",map.get(4));
             Assert.assertNull(map.get(2));
 
             Assert.assertNull(map.remove(5));
-            Assert.assertEquals(map.remove(1),"A");
-            Assert.assertEquals(map.remove(4),"C");
+            Assert.assertEquals("A",map.remove(1));
+            Assert.assertEquals("C",map.remove(4));
 
             Assert.assertNull(map.get(1));
-            Assert.assertEquals(map.get(3),"B");
+            Assert.assertEquals("B",map.get(3));
             Assert.assertNull(map.get(4));
             Assert.assertNull(map.get(2));
             Assert.assertEquals(1,map.size());
@@ -332,22 +333,22 @@ public class MyMap_Tests {
 
             Assert.assertEquals(5,map.size());
 
-            Assert.assertEquals(map.get('a'),(Long)1L);
-            Assert.assertEquals(map.get('b'),(Long)2L);
-            Assert.assertEquals(map.get('c'),(Long)3L);
-            Assert.assertEquals(map.get('d'),(Long)4L);
-            Assert.assertEquals(map.get('e'),(Long)5L);
+            Assert.assertEquals((Long)1L,map.get('a'));
+            Assert.assertEquals((Long)2L,map.get('b'));
+            Assert.assertEquals((Long)3L,map.get('c'));
+            Assert.assertEquals((Long)4L,map.get('d'));
+            Assert.assertEquals((Long)5L,map.get('e'));
 
 
             Assert.assertNull(map.remove('f'));
-            Assert.assertEquals(map.remove('a'),(Long)1L);
-            Assert.assertEquals(map.remove('c'),(Long)3L);
+            Assert.assertEquals((Long)1L,map.remove('a'));
+            Assert.assertEquals((Long)3L,map.remove('c'));
 
             Assert.assertNull(map.get('a'));
-            Assert.assertEquals(map.get('b'),(Long)2L);
+            Assert.assertEquals((Long)2L,map.get('b'));
             Assert.assertNull(map.get('c'));
-            Assert.assertEquals(map.get('d'),(Long)4L);
-            Assert.assertEquals(map.get('e'),(Long)5L);
+            Assert.assertEquals((Long)4L,map.get('d'));
+            Assert.assertEquals((Long)5L,map.get('e'));
             Assert.assertEquals(3,map.size());
         }
         catch(Exception e)
@@ -367,9 +368,9 @@ public class MyMap_Tests {
 
         ArrayList<MapEnt<Integer,String>> entries = new ArrayList<MapEnt<Integer,String>>();
         entries.add(new MapEnt<>(1,"C"));
-        entries.add(new MapEnt<>(3,"B"));
-        entries.add(new MapEnt<>(4,"C"));
-        entries.add(new MapEnt<>(6,"M"));
+        entries.add(new MapEnt<>(3,"C"));
+        entries.add(new MapEnt<>(4,"Z"));
+        entries.add(new MapEnt<>(6,"K"));
 
         ArrayList<Integer> keys = new ArrayList<>();
         keys.add(1);
@@ -377,18 +378,44 @@ public class MyMap_Tests {
         keys.add(4);
         keys.add(6);
 
-        ArrayList<String> Values = new ArrayList<>();
-        keys.add(1);
-        keys.add(3);
-        keys.add(4);
-        keys.add(6);
+        ArrayList<String> values = new ArrayList<>();
+        values.add("C");
+        values.add("C");
+        values.add("Z");
+        values.add("K");
 
         try
         {
             map.put(1,"C");
             map.put(3,"B");
-            map.put(4,"C");
-            map.put(6,"M");
+            map.put(4,"Z");
+            map.put(6,"K");
+            map.put(3,"C");
+
+            Iterator<Integer> keyIt = map.keySet().iterator();
+            Iterator<MapEnt<Integer,String>> entryIt = map.entrySet().iterator();
+            ArrayList<String> studentValues = map.values();
+
+            Assert.assertEquals(4,map.keySet().size());
+            Assert.assertEquals(4,studentValues.size());
+            Assert.assertEquals(4,map.entrySet().size());
+
+
+            while(keyIt.hasNext())
+                Assert.assertTrue(keys.contains(keyIt.next()));
+
+            for(Integer key: keys)
+                Assert.assertTrue(map.keySet().contains(key));
+
+            while(entryIt.hasNext())
+                Assert.assertTrue(entries.contains(entryIt.next()));
+
+            for(MapEnt<Integer,String> ent: entries)
+                Assert.assertTrue(map.entrySet().contains(ent));
+
+            for(String v:values)
+                Assert.assertTrue(map.values().contains(v));
+
         }
         catch(Exception e)
         {
@@ -403,6 +430,27 @@ public class MyMap_Tests {
         Class<?> classRef = Class.forName(generateClassName("MyMap"));
         MapInterface<Character,Long> map = (MapInterface<Character,Long>) classRef.getConstructor().newInstance();
 
+        ArrayList<MapEnt<Character,Long>> entries = new ArrayList<>();
+        entries.add(new MapEnt<>('a',7L));
+        entries.add(new MapEnt<>('b',8L));
+        entries.add(new MapEnt<>('c',3L));
+        entries.add(new MapEnt<>('d',14L));
+        entries.add(new MapEnt<>('e',55L));
+
+        ArrayList<Character> keys = new ArrayList<>();
+        keys.add('a');
+        keys.add('b');
+        keys.add('c');
+        keys.add('d');
+        keys.add('e');
+
+        ArrayList<Long> values = new ArrayList<>();
+        values.add(7L);
+        values.add(8L);
+        values.add(3L);
+        values.add(14L);
+        values.add(55L);
+
         try
         {
             map.put('a',7L);
@@ -410,6 +458,30 @@ public class MyMap_Tests {
             map.put('c',3L);
             map.put('d',14L);
             map.put('e',55L);
+
+            Iterator<Character> keyIt = map.keySet().iterator();
+            Iterator<MapEnt<Character,Long>> entryIt = map.entrySet().iterator();
+            ArrayList<Long> studentValues = map.values();
+
+            Assert.assertEquals(5,map.keySet().size());
+            Assert.assertEquals(5,studentValues.size());
+            Assert.assertEquals(5,map.entrySet().size());
+
+
+            while(keyIt.hasNext())
+                Assert.assertTrue(keys.contains(keyIt.next()));
+
+            for(Character key: keys)
+                Assert.assertTrue(map.keySet().contains(key));
+
+            while(entryIt.hasNext())
+                Assert.assertTrue(entries.contains(entryIt.next()));
+
+            for(MapEnt<Character,Long> ent: entries)
+                Assert.assertTrue(map.entrySet().contains(ent));
+
+            for(Long v:values)
+                Assert.assertTrue(map.values().contains(v));
         }
         catch(Exception e)
         {
