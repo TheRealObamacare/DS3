@@ -16,7 +16,8 @@ public class MyMap<K,V> implements MapInterface<K,V>
     {
         while(set.iterator().hasNext())
         {
-            if(set.iterator().next().getKey().equals(key))
+            MapEnt<K,V> ent= set.iterator().next();
+            if(ent.getKey().equals(key))
                 return true;
         }
         return false;
@@ -25,7 +26,8 @@ public class MyMap<K,V> implements MapInterface<K,V>
     {
         while(set.iterator().hasNext())
         {
-            if(set.iterator().next().getValue().equals(value))
+            MapEnt<K,V> ent= set.iterator().next();
+            if(ent.getValue().equals(value))
                 return true;
         }
         return false;
@@ -53,13 +55,13 @@ public class MyMap<K,V> implements MapInterface<K,V>
 
     public V put(K key, V value)
     {
-        set.iterator();
         while(set.iterator().hasNext())
         {
-            if(set.iterator().next().getKey().equals(key))
+            MapEnt<K,V> ent= set.iterator().next();
+            if(ent.getKey().equals(key))
             {
-                V old= set.iterator().next().getValue();
-                set.iterator().next().setValue(value);
+                V old= ent.getValue();
+                ent.setValue(value);
                 return old;
             }
         }
