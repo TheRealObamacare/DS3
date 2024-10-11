@@ -2,11 +2,11 @@ import java.util.ArrayList;
 
 public class MyMap<K,V> implements MapInterface<K,V>
 {
-    private MySet<MapEnt<K,V>> set;
+    private ArrayList<MapEnt<K,V>> set;
 
     public MyMap()
     {
-        set= new MySet<MapEnt<K,V>>();
+        set= new ArrayList<>();
     }
     public void clear()
     {
@@ -14,9 +14,8 @@ public class MyMap<K,V> implements MapInterface<K,V>
     }
     public boolean containsKey(K key)
     {
-        while(set.iterator().hasNext())
+        for (MapEnt<K,V> ent : set)
         {
-            MapEnt<K,V> ent= set.iterator().next();
             if(ent.getKey().equals(key))
                 return true;
         }
@@ -24,24 +23,25 @@ public class MyMap<K,V> implements MapInterface<K,V>
     }
     public boolean containsValue(V value)
     {
-        while(set.iterator().hasNext())
-        {
-            MapEnt<K,V> ent= set.iterator().next();
-            if(ent.getValue().equals(value))
+        for(MapEnt<K,V> ent : set)
+            if (ent.getValue().equals(value))
                 return true;
-        }
         return false;
     }
     public MySet<MapEnt<K,V>> entrySet()
     {
-        return set;
+        MySet<MapEnt<K,V>> entries= new MySet<>();
+        for(MapEnt<K,V> ent : set)
+        {
+            entries.add(ent);
+        }
+        return entries;
     }
 
     public V get(K o)
     {
-        while(set.iterator().hasNext())
+        for(MapEnt<K,V> ent : set)
         {
-            MapEnt<K,V> ent= set.iterator().next();
             if(ent.getKey().equals(o))
                 return ent.getValue();
         }
@@ -55,9 +55,8 @@ public class MyMap<K,V> implements MapInterface<K,V>
 
     public V put(K key, V value)
     {
-        while(set.iterator().hasNext())
+        for (MapEnt<K,V> ent : set)
         {
-            MapEnt<K,V> ent= set.iterator().next();
             if(ent.getKey().equals(key))
             {
                 V old= ent.getValue();
@@ -76,10 +75,10 @@ public class MyMap<K,V> implements MapInterface<K,V>
 
     public MySet<K> keySet()
     {
-        MySet<K> keys= new MySet<K>();
-        while(set.iterator().hasNext())
+        MySet<K> keys= new MySet<>();
+        for(MapEnt<K,V> ent : set)
         {
-            keys.add(set.iterator().next().getKey());
+            keys.add(ent.getKey());
         }
         return keys;
     }
@@ -87,18 +86,17 @@ public class MyMap<K,V> implements MapInterface<K,V>
     public ArrayList<V> values()
     {
         ArrayList<V> list= new ArrayList<V>();
-        while(set.iterator().hasNext())
+        for (MapEnt<K,V> ent : set)
         {
-            list.add(set.iterator().next().getValue());
+            list.add(ent.getValue());
         }
         return list;
     }
 
     public V remove(K key)
     {
-        while(set.iterator().hasNext())
+        for (MapEnt<K,V> ent : set)
         {
-            MapEnt<K,V> ent= set.iterator().next();
             if(ent.getKey().equals(key))
             {
                 V old= ent.getValue();
